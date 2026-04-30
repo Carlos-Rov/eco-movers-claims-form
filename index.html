@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claim Form | Eco Movers</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --eco-green: #8cc63f;
+            --eco-gray: #4d4d4d;
+        }
+        .bg-eco-green { background-color: var(--eco-green); }
+        .text-eco-green { color: var(--eco-green); }
+        .border-eco-green { border-color: var(--eco-green); }
+        .focus-ring-eco:focus { outline: 2px solid var(--eco-green); border-color: transparent; }
+        .hidden-section { display: none; }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans text-slate-700">
+
+    <div class="max-w-4xl mx-auto py-12 px-4">
+        
+        <div class="text-center mb-12">
+            <div class="inline-block bg-white p-6 rounded-2xl shadow-sm border-b-4 border-eco-green mb-4">
+                 <h1 class="text-4xl font-black italic tracking-tighter text-eco-green uppercase">eco<span class="text-[#4d4d4d]">movers</span></h1>
+                 <p class="text-[10px] tracking-[0.4em] font-bold text-gray-400 uppercase mt-1">Reducing Stress Since 2009</p>
+            </div>
+            <p class="text-gray-500 italic">Serving the Pacific Northwest with a commitment to a greener future</p>
+        </div>
+
+        <div class="bg-white shadow-sm rounded-xl p-8 border border-gray-200 mb-8 text-sm leading-relaxed text-slate-600">
+            <p class="mb-4">Standard Customer Experience form to gather information regarding claims, billing issues and complaints. Our goal is to try to resolve any customer issues as soon as possible. Once your form is submitted, please allow 2-3 business days for our Claims team to reach back out to you by email.</p>
+            <p class="mb-4">If at any point you have difficulty with the claims form, please reach out to us at <strong>claims@ecomovers.com</strong> and we will do our best to assist you.</p>
+            <p class="font-bold text-eco-green uppercase tracking-wide">We primarily reach out via email: Please make sure the email below is your best contact email.</p>
+        </div>
+
+        <form id="ecoClaimForm" class="space-y-6">
+            <input type="hidden" name="timestamp" id="timestamp">
+
+            <div class="bg-white shadow-sm rounded-xl p-8 border border-gray-200">
+                <h3 class="font-bold text-eco-green uppercase tracking-widest mb-6 border-b pb-2">Customer Information</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-bold mb-2">Email Address *</label>
+                        <input type="email" name="email" required class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-2">What is your Name? *</label>
+                        <input type="text" name="cust_name" required class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-2">What is the name listed on the move job? *</label>
+                        <input type="text" name="job_name" required class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-2">What is the phone number listed on your move? *</label>
+                        <input type="tel" name="phone" required class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-2">If your contact phone number is different, please enter it below:</label>
+                        <input type="tel" name="alt_phone" class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco">
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white shadow-sm rounded-xl p-8 border border-gray-200">
+                <label class="block text-lg font-bold mb-4 text-eco-green">Why are you reaching out to us today? (Check all that apply) *</label>
+                <div class="space-y-4 bg-gray-50 p-6 rounded-lg border border-gray-200">
+                    <label class="flex items-start cursor-pointer">
+                        <input type="checkbox" id="chk-damages" name="reason_category" value="Damages/losses" class="mt-1 mr-4 w-6 h-6 text-eco-green border-gray-300 rounded focus-ring-eco">
+                        <span class="text-base font-bold text-slate-700">Damages / Losses</span>
+                    </label>
+                    <label class="flex items-start cursor-pointer">
+                        <input type="checkbox" id="chk-billing" name="reason_category" value="Billing concerns" class="mt-1 mr-4 w-6 h-6 text-eco-green border-gray-300 rounded focus-ring-eco">
+                        <span class="text-base font-bold text-slate-700">Billing Concerns</span>
+                    </label>
+                    <label class="flex items-start cursor-pointer">
+                        <input type="checkbox" id="chk-complaints" name="reason_category" value="Complaints" class="mt-1 mr-4 w-6 h-6 text-eco-green border-gray-300 rounded focus-ring-eco">
+                        <span class="text-base font-bold text-slate-700">Complaints (Crew or Office Staff)</span>
+                    </label>
+                </div>
+            </div>
+
+            <div id="sec-damages" class="hidden-section bg-white shadow-sm rounded-xl p-8 border-t-4 border-eco-green">
+                <h3 class="font-bold text-eco-green uppercase tracking-widest mb-6 border-b pb-2">1. Damages / Losses</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-bold mb-2">What is the date the incident occurred?</label>
+                        <input type="date" name="incident_date" class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-2">What address did this happen at?</label>
+                        <input type="text" name="address" class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-bold mb-2">Which valuation/coverage option did you select for your move?</label>
+                        <select name="coverage" class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco bg-white">
+                            <option value="">-- Select --</option>
+                            <option value="Replacement Cost Coverage with No Deductible">Replacement Cost Coverage with No Deductible</option>
+                            <option value="Replacement Cost Coverage with Deductible">Replacement Cost Coverage with Deductible</option>
+                            <option value="Basic Value Protection">Basic Value Protection</option>
+                        </select>
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-bold mb-2 italic text-gray-600">If there is damage: please list the items damaged and the nature of the damage. <br><br>If you have a missing item: please list the item(s) missing and provide a description to help us search. Please be as thorough as possible.</label>
+                        <textarea name="damage_description" rows="5" class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-2">What is the combined weight of the items?</label>
+                        <input type="text" name="weight" placeholder="Input a zero if you are unsure" class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-2">What is the value of the items?</label>
+                        <input type="number" name="claimed_value" placeholder="Input a zero if you are unsure" class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-2">Do you have Photos of the damage?</label>
+                        <select name="has_photos" class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco bg-white">
+                            <option value="">-- Select --</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="The crew has them">The crew has them.</option>
+                            <option value="Other">Other:</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-2">Please upload any photos you have here:</label>
+                        <input type="file" disabled class="text-xs text-gray-400 p-2 w-full border border-dashed border-gray-300 rounded-md">
+                        <p class="text-[10px] text-gray-400 mt-1 italic">(File upload processing via secure portal)</p>
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-bold mb-2">If you have further information to provide, please include it below:</label>
+                        <textarea name="extra_info" rows="2" class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div id="sec-billing" class="hidden-section bg-white shadow-sm rounded-xl p-8 border-t-4 border-eco-green">
+                <h3 class="font-bold text-eco-green uppercase tracking-widest mb-6 border-b pb-2">2. Billing Concerns</h3>
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-bold mb-2">What is the nature of your billing concern?</label>
+                        <select name="billing_nature" class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco bg-white">
+                            <option value="">-- Select --</option>
+                            <option value="Charges for Transit">Charges for Transit</option>
+                            <option value="Move Time or Length">Move Time or Length</option>
+                            <option value="Concerns about the Estimate provided or Final Move Paperwork">Concerns about the Estimate provided or Final Move Paperwork</option>
+                            <option value="Materials or other Services">Materials or other Services</option>
+                            <option value="Other">Other:</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-2">Please elaborate on your billing concern(s): Include as much detail as you're able in order to assist with our investigation.</label>
+                        <textarea name="billing_details" rows="4" class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div id="sec-complaints" class="hidden-section bg-white shadow-sm rounded-xl p-8 border-t-4 border-eco-green">
+                <h3 class="font-bold text-eco-green uppercase tracking-widest mb-6 border-b pb-2">3. Complaints</h3>
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-bold mb-2">Is this a general complaint or is this for particular crew or office staff?</label>
+                        <select name="complaint_type" class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco bg-white">
+                            <option value="">-- Select --</option>
+                            <option value="General">General</option>
+                            <option value="Particular crew or office staff">Particular crew or office staff</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-2">If the concern is with a particular crew member or office staff, would you be willing to provide a name or description of the individual(s)?</label>
+                        <input type="text" name="staff_details" class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-2">What happened?</label>
+                        <textarea name="what_happened" rows="4" class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white shadow-sm rounded-xl p-8 border border-gray-200">
+                <div class="bg-green-50 p-6 rounded-lg border-2 border-dashed border-eco-green mb-8">
+                    <label class="block text-sm font-black uppercase text-eco-green mb-2">Please describe your requested resolution. If you are seeking a reimbursement, specify the amount requested. *</label>
+                    <textarea name="requested_resolution" rows="3" required class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco"></textarea>
+                </div>
+                
+                <div class="flex items-start">
+                    <input type="checkbox" id="agreement" name="agreement" required class="mt-1 mr-3 w-5 h-5 text-eco-green border-gray-300 rounded focus-ring-eco cursor-pointer">
+                    <label for="agreement" class="text-sm font-bold text-slate-700 leading-relaxed cursor-pointer">
+                        By checking the below box, you are indicating that you are the Person named in the first answer on this form. You also acknowledge that you have read the information within this form and that the details you have provided above are the truth to the best of your knowledge. *<br><br>
+                        <span class="text-eco-green uppercase tracking-widest">I agree</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="text-center py-6">
+                <button type="submit" id="submitBtn" class="bg-eco-green hover:brightness-110 text-white font-black py-5 px-16 rounded-full shadow-2xl text-xl uppercase tracking-widest transition transform active:scale-95">
+                    Submit Claim
+                </button>
+                <p id="responseMsg" class="mt-6 font-bold hidden"></p>
+            </div>
+        </form>
+
+        <div class="text-center text-gray-300 text-[10px] uppercase tracking-[0.5em] mt-12 pb-12">
+            Eco Movers Seattle &bull; Sustainable Moving Excellence &bull; 2026
+        </div>
+    </div>
+
+    <script>
+        // --- LOGIC TO SHOW/HIDE SECTIONS ---
+        const chkDamages = document.getElementById('chk-damages');
+        const chkBilling = document.getElementById('chk-billing');
+        const chkComplaints = document.getElementById('chk-complaints');
+
+        const secDamages = document.getElementById('sec-damages');
+        const secBilling = document.getElementById('sec-billing');
+        const secComplaints = document.getElementById('sec-complaints');
+
+        function toggleSections() {
+            secDamages.style.display = chkDamages.checked ? 'block' : 'none';
+            secBilling.style.display = chkBilling.checked ? 'block' : 'none';
+            secComplaints.style.display = chkComplaints.checked ? 'block' : 'none';
+        }
+
+        chkDamages.addEventListener('change', toggleSections);
+        chkBilling.addEventListener('change', toggleSections);
+        chkComplaints.addEventListener('change', toggleSections);
+
+        // --- SUBMISSION LOGIC ---
+        const form = document.getElementById('ecoClaimForm');
+        const btn = document.getElementById('submitBtn');
+        const msg = document.getElementById('responseMsg');
+
+        document.getElementById('timestamp').value = new Date().toLocaleString();
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Make sure they selected at least one category
+            if(!chkDamages.checked && !chkBilling.checked && !chkComplaints.checked) {
+                alert("Please select at least one reason for reaching out (Damages, Billing, or Complaints).");
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerText = 'PROCESSING...';
+
+            const formData = new FormData(form);
+            const data = {};
+            
+            formData.forEach((value, key) => {
+                if (data[key]) {
+                    data[key] += ', ' + value; 
+                } else {
+                    data[key] = value;
+                }
+            });
+
+            try {
+                // REPLACE THIS WITH YOUR PRODUCTION WEBHOOK URL
+                const response = await fetch('YOUR_N8N_WEBHOOK_URL_HERE', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    form.reset();
+                    toggleSections(); // Hide sections again after submit
+                    msg.innerText = "CLAIM SUBMITTED SUCCESSFULLY. OUR CE TEAM WILL REVIEW THIS SHORTLY.";
+                    msg.className = "mt-6 font-bold text-eco-green block uppercase tracking-tight";
+                    btn.classList.add('hidden');
+                } else {
+                    throw new Error();
+                }
+            } catch (err) {
+                msg.innerText = "SUBMISSION ERROR. PLEASE CHECK YOUR CONNECTION.";
+                msg.className = "mt-6 font-bold text-red-500 block uppercase tracking-tight";
+                btn.disabled = false;
+                btn.innerText = 'RETRY SUBMIT';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Claim Form | Eco Movers</title>
+    
+    <script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
+    <script>
+      UPLOADCARE_PUBLIC_KEY = '34773066bfb88d6c5075';
+    </script>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         :root {
@@ -126,7 +132,7 @@
                     </div>
                     <div>
                         <label class="block text-sm font-bold mb-2">Please upload any photos you have here:</label>
-                        <input type="file" disabled class="text-xs text-gray-400 p-2 w-full border border-dashed border-gray-300 rounded-md">
+                        <input type="hidden" role="uploadcare-uploader" name="photo_url" />
                         <p class="text-[10px] text-gray-400 mt-1 italic">(File upload processing via secure portal)</p>
                     </div>
                     <div class="md:col-span-2">

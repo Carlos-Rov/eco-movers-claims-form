@@ -42,7 +42,7 @@
         </div>
 
         <form id="ecoClaimForm" class="space-y-6">
-            <!-- Hidden inputs to pass data to n8n silently -->
+            <!-- Campos ocultos para enviar datos a n8n -->
             <input type="hidden" name="timestamp" id="timestamp">
             <input type="hidden" name="move_type" id="move_type_input" value="LOCAL">
 
@@ -72,20 +72,21 @@
                 </div>
             </div>
 
-            <!-- NEW LONG DISTANCE SECTION (Hidden by default) -->
+            <!-- SECCIÓN LONG DISTANCE (Oculta por defecto) -->
             <div id="sec-ld-questions" class="hidden-section bg-[#f8fafc] shadow-sm rounded-xl p-8 border border-gray-200 border-l-4 border-l-blue-500">
-                <h3 class="font-bold text-blue-600 uppercase tracking-widest mb-6 border-b pb-2">Long Distance Move Details</h3>
+                <h3 class="font-bold text-blue-600 uppercase tracking-widest mb-6 border-b pb-2">Move Delivery</h3>
+                <p class="text-sm text-gray-600 mb-6">For concerns related to your delivery arriving later than expected, including missed or delayed delivery dates.</p>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label class="block text-sm font-bold mb-2">What was your scheduled delivery date?</label>
-                        <input type="text" name="scheduled_delivery" class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco" placeholder="e.g., June 1st - June 10th">
+                        <input type="date" name="scheduled_delivery" class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco">
                     </div>
                     <div>
-                        <label class="block text-sm font-bold mb-2">When was your actual delivery date?</label>
+                        <label class="block text-sm font-bold mb-2">When was your delivery date?</label>
                         <input type="date" name="actual_delivery" class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco">
                     </div>
                     <div class="md:col-span-2">
-                        <label class="block text-sm font-bold mb-2">Please provide any additional delivery details:</label>
+                        <label class="block text-sm font-bold mb-2">Please provide any additional details.</label>
                         <textarea name="delivery_details" rows="3" class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco"></textarea>
                     </div>
                 </div>
@@ -235,92 +236,91 @@
     </div>
 
     <script>
-        // --- NEW: URL PARAMETER LOGIC ---
-        // Extraemos la variable "tipo" del enlace (ej: ?tipo=ld)
-        const urlParams = new URLSearchParams(window.location.search);
-        const tipoMudanza = urlParams.get('tipo'); 
+        // DOMContentLoaded asegura que el formulario exista antes de leer la URL
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // LÓGICA DE PARÁMETROS URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const tipoMudanza = urlParams.get('tipo'); 
 
-        // Evaluamos si es LD
-        if (tipoMudanza && tipoMudanza.toLowerCase() === 'ld') {
-            // Actualizamos el campo oculto para que n8n sepa que es LD
-            document.getElementById('move_type_input').value = "LD";
-            // Mostramos la sección de preguntas exclusivas de LD
-            document.getElementById('sec-ld-questions').style.display = 'block';
-        }
-
-        // --- LOGIC TO SHOW/HIDE SECTIONS ---
-        const chkDamages = document.getElementById('chk-damages');
-        const chkBilling = document.getElementById('chk-billing');
-        const chkComplaints = document.getElementById('chk-complaints');
-
-        const secDamages = document.getElementById('sec-damages');
-        const secBilling = document.getElementById('sec-billing');
-        const secComplaints = document.getElementById('sec-complaints');
-
-        function toggleSections() {
-            secDamages.style.display = chkDamages.checked ? 'block' : 'none';
-            secBilling.style.display = chkBilling.checked ? 'block' : 'none';
-            secComplaints.style.display = chkComplaints.checked ? 'block' : 'none';
-        }
-
-        chkDamages.addEventListener('change', toggleSections);
-        chkBilling.addEventListener('change', toggleSections);
-        chkComplaints.addEventListener('change', toggleSections);
-
-        // --- SUBMISSION LOGIC ---
-        const form = document.getElementById('ecoClaimForm');
-        const btn = document.getElementById('submitBtn');
-        const msg = document.getElementById('responseMsg');
-
-        document.getElementById('timestamp').value = new Date().toLocaleString();
-
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            // Make sure they selected at least one category
-            if(!chkDamages.checked && !chkBilling.checked && !chkComplaints.checked) {
-                alert("Please select at least one reason for reaching out (Damages, Billing, or Complaints).");
-                return;
+            if (tipoMudanza && tipoMudanza.toLowerCase() === 'ld') {
+                document.getElementById('move_type_input').value = "LD";
+                document.getElementById('sec-ld-questions').style.display = 'block';
             }
 
-            btn.disabled = true;
-            btn.innerText = 'PROCESSING...';
+            // LÓGICA PARA MOSTRAR/OCULTAR SECCIONES
+            const chkDamages = document.getElementById('chk-damages');
+            const chkBilling = document.getElementById('chk-billing');
+            const chkComplaints = document.getElementById('chk-complaints');
 
-            const formData = new FormData(form);
-            const data = {};
-            
-            formData.forEach((value, key) => {
-                if (data[key]) {
-                    data[key] += ', ' + value; 
-                } else {
-                    data[key] = value;
+            const secDamages = document.getElementById('sec-damages');
+            const secBilling = document.getElementById('sec-billing');
+            const secComplaints = document.getElementById('sec-complaints');
+
+            function toggleSections() {
+                secDamages.style.display = chkDamages.checked ? 'block' : 'none';
+                secBilling.style.display = chkBilling.checked ? 'block' : 'none';
+                secComplaints.style.display = chkComplaints.checked ? 'block' : 'none';
+            }
+
+            chkDamages.addEventListener('change', toggleSections);
+            chkBilling.addEventListener('change', toggleSections);
+            chkComplaints.addEventListener('change', toggleSections);
+
+            // LÓGICA DE ENVÍO (SUBMIT)
+            const form = document.getElementById('ecoClaimForm');
+            const btn = document.getElementById('submitBtn');
+            const msg = document.getElementById('responseMsg');
+
+            document.getElementById('timestamp').value = new Date().toLocaleString();
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                if(!chkDamages.checked && !chkBilling.checked && !chkComplaints.checked) {
+                    alert("Please select at least one reason for reaching out (Damages, Billing, or Complaints).");
+                    return;
                 }
-            });
 
-            try {
-                // TU URL DE WEBHOOK DE PRODUCCIÓN
-                const response = await fetch('https://n8n.ecomovers.com/webhook/4787032b-aecc-4b2e-8c22-eccc3f365cbd', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
+                btn.disabled = true;
+                btn.innerText = 'PROCESSING...';
+
+                const formData = new FormData(form);
+                const data = {};
+                
+                formData.forEach((value, key) => {
+                    if (data[key]) {
+                        data[key] += ', ' + value; 
+                    } else {
+                        data[key] = value;
+                    }
                 });
 
-                if (response.ok) {
-                    form.reset();
-                    toggleSections(); // Hide sections again after submit
-                    document.getElementById('sec-ld-questions').style.display = 'none'; // Hide LD on success
-                    msg.innerText = "CLAIM SUBMITTED SUCCESSFULLY. OUR CE TEAM WILL REVIEW THIS SHORTLY.";
-                    msg.className = "mt-6 font-bold text-eco-green block uppercase tracking-tight";
-                    btn.classList.add('hidden');
-                } else {
-                    throw new Error();
+                try {
+                    // WEBHOOK DE n8n
+                    const response = await fetch('https://n8n.ecomovers.com/webhook/4787032b-aecc-4b2e-8c22-eccc3f365cbd', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data)
+                    });
+
+                    if (response.ok) {
+                        form.reset();
+                        toggleSections(); 
+                        document.getElementById('sec-ld-questions').style.display = 'none'; 
+                        msg.innerText = "CLAIM SUBMITTED SUCCESSFULLY. OUR CE TEAM WILL REVIEW THIS SHORTLY.";
+                        msg.className = "mt-6 font-bold text-eco-green block uppercase tracking-tight";
+                        btn.classList.add('hidden');
+                    } else {
+                        throw new Error();
+                    }
+                } catch (err) {
+                    msg.innerText = "SUBMISSION ERROR. PLEASE CHECK YOUR CONNECTION.";
+                    msg.className = "mt-6 font-bold text-red-500 block uppercase tracking-tight";
+                    btn.disabled = false;
+                    btn.innerText = 'RETRY SUBMIT';
                 }
-            } catch (err) {
-                msg.innerText = "SUBMISSION ERROR. PLEASE CHECK YOUR CONNECTION.";
-                msg.className = "mt-6 font-bold text-red-500 block uppercase tracking-tight";
-                btn.disabled = false;
-                btn.innerText = 'RETRY SUBMIT';
-            }
+            });
         });
     </script>
 </body>

@@ -1,327 +1,934 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Claim Form | Eco Movers</title>
-    
+
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self';
+               script-src 'self' https://ucarecdn.com https://cdn.tailwindcss.com 'unsafe-inline';
+               style-src 'self' 'unsafe-inline' https://ucarecdn.com https://fonts.googleapis.com;
+               font-src 'self' https://fonts.gstatic.com;
+               connect-src 'self' https://upload.uploadcare.com;
+               img-src 'self' https://ucarecdn.com data:;"
+    />
+    <!-- X-Frame-Options and Referrer-Policy are set as real headers in .htaccess;
+         browsers ignore them in <meta>. -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+
     <script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
     <script>
-      UPLOADCARE_PUBLIC_KEY = '34773066bfb88d6c5075';
+      UPLOADCARE_PUBLIC_KEY = "34773066bfb88d6c5075";
+      UPLOADCARE_IMAGES_ONLY = false;
+      UPLOADCARE_MAX_FILES = 10;
+      UPLOADCARE_INPUT_ACCEPT_TYPES =
+        "image/jpeg,image/png,image/gif,image/webp,application/pdf";
     </script>
-    
+
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+
     <style>
-        :root {
-            --eco-green: #8cc63f;
-            --eco-gray: #4d4d4d;
-        }
-        .bg-eco-green { background-color: var(--eco-green); }
-        .text-eco-green { color: var(--eco-green); }
-        .border-eco-green { border-color: var(--eco-green); }
-        .focus-ring-eco:focus { outline: 2px solid var(--eco-green); border-color: transparent; }
-        .hidden-section { display: none; }
+      :root {
+        --eco-green: #80ce11;
+        --eco-green-dark: #6db30e;
+        --eco-green-soft: #f4fceb;
+        --eco-gray: #4d4d4d;
+        --eco-gray-soft: #f5f5f5;
+        --eco-text: #2c2c2c;
+        --eco-muted: #6b7280;
+        --font-primary: "Montserrat", sans-serif;
+        --font-nav: "Karla", sans-serif;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body,
+      button,
+      input,
+      select,
+      textarea {
+        font-family: var(--font-primary);
+        font-size: 16px;
+      }
+
+      body {
+        color: var(--eco-text);
+        background: linear-gradient(180deg, #ffffff 0%, #f7f9f4 100%);
+      }
+
+      .eco-topbar a,
+      .eco-submit,
+      .eco-intro-links a {
+        font-family: var(--font-nav);
+      }
+
+      .font-display {
+        font-family: var(--font-primary);
+        letter-spacing: 0.02em;
+      }
+
+      .bg-eco-green {
+        background-color: var(--eco-green);
+      }
+      .bg-eco-green-dark {
+        background-color: var(--eco-green-dark);
+      }
+      .text-eco-green {
+        color: var(--eco-green);
+      }
+      .text-eco-gray {
+        color: var(--eco-gray);
+      }
+      .border-eco-green {
+        border-color: var(--eco-green);
+      }
+      .bg-eco-soft {
+        background-color: var(--eco-green-soft);
+      }
+
+      /* --- Inputs ------------------------------------------------ */
+      .eco-input,
+      .eco-select,
+      .eco-textarea {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        font-size: 16px;
+        line-height: 1.4;
+        color: var(--eco-text);
+        background-color: #ffffff;
+        border: 1.5px solid #e5e7eb;
+        border-radius: 0.625rem;
+        transition:
+          border-color 0.15s ease,
+          box-shadow 0.15s ease,
+          background-color 0.15s ease;
+      }
+      .eco-input::placeholder,
+      .eco-textarea::placeholder {
+        color: #9ca3af;
+      }
+      .eco-input:hover,
+      .eco-select:hover,
+      .eco-textarea:hover {
+        border-color: #d1d5db;
+      }
+      .eco-input:focus,
+      .eco-select:focus,
+      .eco-textarea:focus {
+        outline: none;
+        border-color: var(--eco-green);
+        box-shadow: 0 0 0 4px rgba(128, 206, 17, 0.2);
+        background-color: #fff;
+      }
+      .eco-textarea {
+        min-height: 6rem;
+        resize: vertical;
+      }
+      .eco-select {
+        appearance: none;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%234d4d4d'%3e%3cpath fill-rule='evenodd' d='M5.23 7.21a.75.75 0 011.06.02L10 11.06l3.71-3.83a.75.75 0 111.08 1.04l-4.25 4.39a.75.75 0 01-1.08 0L5.21 8.27a.75.75 0 01.02-1.06z' clip-rule='evenodd'/%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 0.875rem center;
+        background-size: 1.1rem;
+        padding-right: 2.5rem;
+      }
+
+      /* --- Labels ------------------------------------------------ */
+      .eco-label {
+        display: block;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--eco-text);
+        margin-bottom: 0.4rem;
+        letter-spacing: 0.01em;
+      }
+      .eco-label .req {
+        color: var(--eco-green-dark);
+        margin-left: 2px;
+      }
+      .eco-help {
+        font-size: 0.75rem;
+        color: var(--eco-muted);
+        margin-top: 0.35rem;
+      }
+
+      /* --- Cards ------------------------------------------------ */
+      .eco-card {
+        background: #ffffff;
+        border: 1px solid #ececec;
+        border-radius: 0.875rem;
+        padding: 2rem;
+        box-shadow:
+          0 1px 2px rgba(0, 0, 0, 0.03),
+          0 4px 12px rgba(0, 0, 0, 0.025);
+      }
+      .eco-card-accent {
+        border-top: 4px solid var(--eco-green);
+      }
+      .eco-section-title {
+        font-family: var(--font-primary);
+        font-size: 1.4rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        color: var(--eco-text);
+        text-transform: uppercase;
+        padding-bottom: 0.6rem;
+        margin-bottom: 1.5rem;
+        border-bottom: 1px solid #ececec;
+      }
+      .eco-section-title .num {
+        color: var(--eco-green);
+        margin-right: 0.5rem;
+      }
+
+      /* --- Reason chips (checkboxes) ----------------------------- */
+      .eco-reason {
+        display: flex;
+        align-items: center;
+        gap: 0.85rem;
+        padding: 1rem 1.25rem;
+        background: #fff;
+        border: 1.5px solid #e5e7eb;
+        border-radius: 0.75rem;
+        cursor: pointer;
+        transition: all 0.15s ease;
+      }
+      .eco-reason:hover {
+        border-color: var(--eco-green);
+        background: var(--eco-green-soft);
+      }
+      .eco-reason input[type="checkbox"] {
+        width: 1.25rem;
+        height: 1.25rem;
+        accent-color: var(--eco-green);
+        flex-shrink: 0;
+      }
+      .eco-reason input[type="checkbox"]:checked + span {
+        color: var(--eco-green-dark);
+      }
+      .eco-reason:has(input:checked) {
+        border-color: var(--eco-green);
+        background: var(--eco-green-soft);
+      }
+      .eco-reason span {
+        font-weight: 600;
+        font-size: 1rem;
+      }
+
+      /* --- Submit button --------------------------------------- */
+      .eco-submit {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        gap: 0.5rem;
+        background-color: var(--eco-green);
+        color: #fff !important;
+        font-family: var(--font-nav);
+        font-weight: 700;
+        font-size: 15px;
+        line-height: inherit;
+        letter-spacing: 0.06em;
+        padding: 10px 28px;
+        border: none;
+        border-radius: 999px;
+        text-transform: uppercase;
+        text-decoration: none;
+        box-shadow: 0 8px 22px rgba(128, 206, 17, 0.35);
+        transition:
+          transform 0.12s ease,
+          box-shadow 0.12s ease,
+          background-color 0.12s ease;
+      }
+      .eco-submit:hover,
+      .eco-submit:focus {
+        background-color: var(--eco-green-dark);
+        color: #fff !important;
+        transform: translateY(-1px);
+        box-shadow: 0 10px 26px rgba(128, 206, 17, 0.45);
+        outline: none;
+      }
+      .eco-submit:active {
+        transform: translateY(0);
+      }
+      .eco-submit:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      /* --- Top bar / header -------------------------------------- */
+      .eco-topbar {
+        background: var(--eco-text);
+        color: #d1d5db;
+        font-size: 0.78rem;
+      }
+      .eco-topbar a {
+        color: var(--eco-green);
+        font-weight: 700;
+      }
+
+      /* --- Hero ------------------------------------------------ */
+      .eco-hero {
+        padding: 2.5rem 1rem 1rem;
+        text-align: center;
+      }
+      .eco-hero img {
+        height: 96px;
+        width: auto;
+        margin: 0 auto 0.5rem;
+      }
+      .eco-tagline {
+        font-size: 0.7rem;
+        letter-spacing: 0.4em;
+        font-weight: 700;
+        color: var(--eco-muted);
+        text-transform: uppercase;
+      }
+
+      /* --- Resolution highlight box ---------------------------- */
+      .eco-resolution {
+        background: var(--eco-green-soft);
+        border: 2px dashed var(--eco-green);
+        border-radius: 0.75rem;
+        padding: 1.5rem;
+      }
+
+      /* --- Footer -------------------------------------------- */
+      .eco-footer {
+        background: var(--eco-text);
+        color: #9ca3af;
+        text-align: center;
+        padding: 2rem 1rem;
+        font-size: 0.75rem;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+      }
+      .eco-footer .brand {
+        color: var(--eco-green);
+        font-weight: 700;
+      }
+
+      .hidden-section {
+        display: none;
+      }
+
+      .hp-field {
+        opacity: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 0;
+        width: 0;
+        z-index: -1;
+      }
     </style>
-</head>
-<body class="bg-gray-50 font-sans text-slate-700">
-
-    <div class="max-w-4xl mx-auto py-12 px-4">
-        
-        <div class="text-center mb-12">
-            <div class="inline-block bg-white p-6 rounded-2xl shadow-sm border-b-4 border-eco-green mb-4">
-                 <h1 class="text-4xl font-black italic tracking-tighter text-eco-green uppercase">eco<span class="text-[#4d4d4d]">movers</span></h1>
-                 <p class="text-[10px] tracking-[0.4em] font-bold text-gray-400 uppercase mt-1">Reducing Stress Since 2009</p>
-            </div>
-            <p class="text-gray-500 italic">Serving the Pacific Northwest with a commitment to a greener future</p>
-        </div>
-
-        <div class="bg-white shadow-sm rounded-xl p-8 border border-gray-200 mb-8 text-sm leading-relaxed text-slate-600">
-            <p class="mb-4">Standard Customer Experience form to gather information regarding claims, billing issues and complaints. Our goal is to try to resolve any customer issues as soon as possible. Once your form is submitted, please allow 2-3 business days for our Claims team to reach back out to you by email.</p>
-            <p class="mb-4">If at any point you have difficulty with the claims form, please reach out to us at <strong>claims@ecomovers.com</strong> and we will do our best to assist you.</p>
-            <p class="font-bold text-eco-green uppercase tracking-wide">We primarily reach out via email: Please make sure the email below is your best contact email.</p>
-        </div>
-
-        <form id="ecoClaimForm" class="space-y-6">
-            <!-- Campos ocultos para enviar datos a n8n -->
-            <input type="hidden" name="timestamp" id="timestamp">
-            <input type="hidden" name="move_type" id="move_type_input" value="LOCAL">
-
-            <div class="bg-white shadow-sm rounded-xl p-8 border border-gray-200">
-                <h3 class="font-bold text-eco-green uppercase tracking-widest mb-6 border-b pb-2">Customer Information</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-bold mb-2">Email Address *</label>
-                        <input type="email" name="email" required class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold mb-2">What is your Name? *</label>
-                        <input type="text" name="cust_name" required class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold mb-2">What is the name listed on the move job? *</label>
-                        <input type="text" name="job_name" required class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold mb-2">What is the phone number listed on your move? *</label>
-                        <input type="tel" name="phone" required class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold mb-2">If your contact phone number is different, please enter it below:</label>
-                        <input type="tel" name="alt_phone" class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco">
-                    </div>
-                </div>
-            </div>
-
-            <!-- SECCIÓN LONG DISTANCE (Oculta por defecto) -->
-            <div id="sec-ld-questions" class="hidden-section bg-white shadow-sm rounded-xl p-8 border-t-4 border-eco-green">
-                <h3 class="font-bold text-eco-green uppercase tracking-widest mb-6 border-b pb-2">Move Delivery</h3>
-                <p class="text-sm text-gray-600 mb-6">For concerns related to your delivery arriving later than expected, including missed or delayed delivery dates.</p>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block text-sm font-bold mb-2">What was your scheduled delivery date?</label>
-                        <input type="date" name="scheduled_delivery" class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold mb-2">When was your delivery date?</label>
-                        <input type="date" name="actual_delivery" class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco">
-                    </div>
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-bold mb-2">Please provide any additional details.</label>
-                        <textarea name="delivery_details" rows="3" class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco"></textarea>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-white shadow-sm rounded-xl p-8 border border-gray-200">
-                <label class="block text-lg font-bold mb-4 text-eco-green">Why are you reaching out to us today? (Check all that apply) *</label>
-                <div class="space-y-4 bg-gray-50 p-6 rounded-lg border border-gray-200">
-                    <label class="flex items-start cursor-pointer">
-                        <input type="checkbox" id="chk-damages" name="reason_category" value="Damages/losses" class="mt-1 mr-4 w-6 h-6 text-eco-green border-gray-300 rounded focus-ring-eco">
-                        <span class="text-base font-bold text-slate-700">Damages / Losses</span>
-                    </label>
-                    <label class="flex items-start cursor-pointer">
-                        <input type="checkbox" id="chk-billing" name="reason_category" value="Billing concerns" class="mt-1 mr-4 w-6 h-6 text-eco-green border-gray-300 rounded focus-ring-eco">
-                        <span class="text-base font-bold text-slate-700">Billing Concerns</span>
-                    </label>
-                    <label class="flex items-start cursor-pointer">
-                        <input type="checkbox" id="chk-complaints" name="reason_category" value="Complaints" class="mt-1 mr-4 w-6 h-6 text-eco-green border-gray-300 rounded focus-ring-eco">
-                        <span class="text-base font-bold text-slate-700">Complaints (Crew or Office Staff)</span>
-                    </label>
-                </div>
-            </div>
-
-            <div id="sec-damages" class="hidden-section bg-white shadow-sm rounded-xl p-8 border-t-4 border-eco-green">
-                <h3 class="font-bold text-eco-green uppercase tracking-widest mb-6 border-b pb-2">1. Damages / Losses</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block text-sm font-bold mb-2">What is the date the incident occurred?</label>
-                        <input type="date" name="incident_date" class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold mb-2">What address did this happen at?</label>
-                        <input type="text" name="address" class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco">
-                    </div>
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-bold mb-2">Which valuation/coverage option did you select for your move?</label>
-                        <select name="coverage" class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco bg-white">
-                            <option value="">-- Select --</option>
-                            <option value="Replacement Cost Coverage with No Deductible">Replacement Cost Coverage with No Deductible</option>
-                            <option value="Replacement Cost Coverage with Deductible">Replacement Cost Coverage with Deductible</option>
-                            <option value="Basic Value Protection">Basic Value Protection</option>
-                        </select>
-                    </div>
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-bold mb-2 italic text-gray-600">If there is damage: please list the items damaged and the nature of the damage. <br><br>If you have a missing item: please list the item(s) missing and provide a description to help us search. Please be as thorough as possible.</label>
-                        <textarea name="damage_description" rows="5" class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco"></textarea>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold mb-2">What is the combined weight of the items?</label>
-                        <input type="text" name="weight" placeholder="Input a zero if you are unsure" class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold mb-2">What is the value of the items?</label>
-                        <input type="number" name="claimed_value" placeholder="Input a zero if you are unsure" class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold mb-2">Do you have Photos of the damage?</label>
-                        <select name="has_photos" class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco bg-white">
-                            <option value="">-- Select --</option>
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
-                            <option value="The crew has them">The crew has them.</option>
-                            <option value="Other">Other:</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold mb-2">Please upload any photos you have here:</label>
-                        <input type="hidden" role="uploadcare-uploader" name="photo_url" />
-                        <p class="text-[10px] text-gray-400 mt-1 italic">(File upload processing via secure portal)</p>
-                    </div>
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-bold mb-2">If you have further information to provide, please include it below:</label>
-                        <textarea name="extra_info" rows="2" class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco"></textarea>
-                    </div>
-                </div>
-            </div>
-
-            <div id="sec-billing" class="hidden-section bg-white shadow-sm rounded-xl p-8 border-t-4 border-eco-green">
-                <h3 class="font-bold text-eco-green uppercase tracking-widest mb-6 border-b pb-2">2. Billing Concerns</h3>
-                <div class="space-y-6">
-                    <div>
-                        <label class="block text-sm font-bold mb-2">What is the nature of your billing concern?</label>
-                        <select name="billing_nature" class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco bg-white">
-                            <option value="">-- Select --</option>
-                            <option value="Charges for Transit">Charges for Transit</option>
-                            <option value="Move Time or Length">Move Time or Length</option>
-                            <option value="Concerns about the Estimate provided or Final Move Paperwork">Concerns about the Estimate provided or Final Move Paperwork</option>
-                            <option value="Materials or other Services">Materials or other Services</option>
-                            <option value="Other">Other:</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold mb-2">Please elaborate on your billing concern(s): Include as much detail as you're able in order to assist with our investigation.</label>
-                        <textarea name="billing_details" rows="4" class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco"></textarea>
-                    </div>
-                </div>
-            </div>
-
-            <div id="sec-complaints" class="hidden-section bg-white shadow-sm rounded-xl p-8 border-t-4 border-eco-green">
-                <h3 class="font-bold text-eco-green uppercase tracking-widest mb-6 border-b pb-2">3. Complaints</h3>
-                <div class="space-y-6">
-                    <div>
-                        <label class="block text-sm font-bold mb-2">Is this a general complaint or is this for particular crew or office staff?</label>
-                        <select name="complaint_type" class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco bg-white">
-                            <option value="">-- Select --</option>
-                            <option value="General">General</option>
-                            <option value="Particular crew or office staff">Particular crew or office staff</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold mb-2">If the concern is with a particular crew member or office staff, would you be willing to provide a name or description of the individual(s)?</label>
-                        <input type="text" name="staff_details" class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold mb-2">What happened?</label>
-                        <textarea name="what_happened" rows="4" class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco"></textarea>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-white shadow-sm rounded-xl p-8 border border-gray-200">
-                <div class="bg-green-50 p-6 rounded-lg border-2 border-dashed border-eco-green mb-8">
-                    <label class="block text-sm font-black uppercase text-eco-green mb-2">Please describe your requested resolution. If you are seeking a reimbursement, specify the amount requested. *</label>
-                    <textarea name="requested_resolution" rows="3" required class="w-full border-gray-300 rounded-md p-3 border focus-ring-eco"></textarea>
-                </div>
-                
-                <div class="flex items-start">
-                    <input type="checkbox" id="agreement" name="agreement" required class="mt-1 mr-3 w-5 h-5 text-eco-green border-gray-300 rounded focus-ring-eco cursor-pointer">
-                    <label for="agreement" class="text-sm font-bold text-slate-700 leading-relaxed cursor-pointer">
-                        By checking the below box, you are indicating that you are the Person named in the first answer on this form. You also acknowledge that you have read the information within this form and that the details you have provided above are the truth to the best of your knowledge. *<br><br>
-                        <span class="text-eco-green uppercase tracking-widest">I agree</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="text-center py-6">
-                <button type="submit" id="submitBtn" class="bg-eco-green hover:brightness-110 text-white font-black py-5 px-16 rounded-full shadow-2xl text-xl uppercase tracking-widest transition transform active:scale-95">
-                    Submit Claim
-                </button>
-                <p id="responseMsg" class="mt-6 font-bold hidden"></p>
-            </div>
-        </form>
-
-        <div class="text-center text-gray-300 text-[10px] uppercase tracking-[0.5em] mt-12 pb-12">
-            Eco Movers Seattle &bull; Sustainable Moving Excellence &bull; 2026
-        </div>
+  </head>
+  <body>
+    <div class="eco-topbar">
+      <div
+        class="max-w-5xl mx-auto px-4 py-2 flex flex-wrap items-center justify-between gap-2"
+      >
+        <span class="hidden sm:inline"
+          >Customer Experience &mdash; Claims Center</span
+        >
+        <span>
+          Need help? Call
+          <a href="tel:+12069716895">(206) 971-6895</a>
+          &nbsp;&middot;&nbsp;
+          <a href="mailto:claims@ecomovers.com">claims@ecomovers.com</a>
+        </span>
+      </div>
     </div>
 
+    <header class="eco-hero">
+      <a
+        href="https://ecomovers.com/?utm_source=claim_form"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img src="assets/eco-movers-logo.png" alt="Eco Movers" />
+      </a>
+      <p class="eco-tagline">Reducing Stress Since 2009</p>
+      <p class="text-sm text-gray-500 italic mt-2 max-w-xl mx-auto px-4">
+        Serving the Pacific Northwest with a commitment to a greener future.
+      </p>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-4 pb-16">
+      <div class="eco-card eco-intro-links mb-6">
+        <p class="text-[15px] leading-relaxed text-gray-600 mb-3">
+          Standard Customer Experience form to gather information regarding
+          claims, billing issues and complaints. Our goal is to try to resolve
+          any customer issues as soon as possible. Once your form is submitted,
+          please allow <strong>2&ndash;3 business days</strong> for our Claims
+          team to reach back out to you by email.
+        </p>
+        <p class="text-[15px] leading-relaxed text-gray-600 mb-3">
+          If at any point you have difficulty with the claims form, please reach
+          out to us at
+          <a
+            href="mailto:claims@ecomovers.com"
+            class="font-semibold text-eco-green underline-offset-2 hover:underline"
+            >claims@ecomovers.com</a
+          >
+          and we will do our best to assist you.
+        </p>
+        <p
+          class="bg-eco-soft border-l-4 border-eco-green text-eco-gray text-sm font-semibold p-3 rounded"
+        >
+          We primarily reach out via email &mdash; please make sure the email
+          below is your best contact.
+        </p>
+      </div>
+
+      <form id="ecoClaimForm" class="space-y-6">
+        <input type="hidden" name="timestamp" id="timestamp" />
+        <input
+          type="hidden"
+          name="move_type"
+          id="move_type_input"
+          value="LOCAL"
+        />
+        <div class="hp-field" aria-hidden="true">
+          <label>Leave this field blank</label>
+          <input type="text" name="website" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <section class="eco-card">
+          <h2 class="eco-section-title">Customer Information</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div class="md:col-span-2">
+              <label class="eco-label" for="f-email"
+                >Email Address<span class="req">*</span></label
+              >
+              <input
+                id="f-email"
+                type="email"
+                name="email"
+                required
+                autocomplete="email"
+                placeholder="you@example.com"
+                class="eco-input"
+              />
+            </div>
+            <div>
+              <label class="eco-label"
+                >What is your Name?<span class="req">*</span></label
+              >
+              <input
+                type="text"
+                name="cust_name"
+                required
+                autocomplete="name"
+                class="eco-input"
+              />
+            </div>
+            <div>
+              <label class="eco-label"
+                >Name listed on the move job<span class="req">*</span></label
+              >
+              <input type="text" name="job_name" required class="eco-input" />
+            </div>
+            <div>
+              <label class="eco-label"
+                >Phone number listed on your move<span class="req"
+                  >*</span
+                ></label
+              >
+              <input
+                type="tel"
+                name="phone"
+                required
+                autocomplete="tel"
+                placeholder="(206) 555-1234"
+                class="eco-input"
+              />
+            </div>
+            <div>
+              <label class="eco-label">Alternate phone (if different)</label>
+              <input type="tel" name="alt_phone" class="eco-input" />
+            </div>
+          </div>
+        </section>
+
+        <section
+          id="sec-ld-questions"
+          class="hidden-section eco-card eco-card-accent"
+        >
+          <h2 class="eco-section-title">Move Delivery</h2>
+          <p class="text-sm text-gray-600 mb-4">
+            For concerns related to your delivery arriving later than expected,
+            including missed or delayed delivery dates.
+          </p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div>
+              <label class="eco-label">Scheduled delivery date</label>
+              <input type="date" name="scheduled_delivery" class="eco-input" />
+            </div>
+            <div>
+              <label class="eco-label">Actual delivery date</label>
+              <input type="date" name="actual_delivery" class="eco-input" />
+            </div>
+            <div class="md:col-span-2">
+              <label class="eco-label">Additional details</label>
+              <textarea
+                name="delivery_details"
+                maxlength="4000"
+                rows="3"
+                class="eco-textarea"
+              ></textarea>
+            </div>
+          </div>
+        </section>
+
+        <section class="eco-card">
+          <h2 class="eco-section-title">
+            Why are you reaching out today?
+            <span
+              class="block text-xs font-medium text-gray-500 normal-case tracking-normal mt-1"
+            >
+              Check all that apply <span class="req">*</span>
+            </span>
+          </h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <label class="eco-reason">
+              <input
+                type="checkbox"
+                id="chk-damages"
+                name="reason_category"
+                value="Damages/losses"
+              />
+              <span>Damages / Losses</span>
+            </label>
+            <label class="eco-reason">
+              <input
+                type="checkbox"
+                id="chk-billing"
+                name="reason_category"
+                value="Billing concerns"
+              />
+              <span>Billing Concerns</span>
+            </label>
+            <label class="eco-reason">
+              <input
+                type="checkbox"
+                id="chk-complaints"
+                name="reason_category"
+                value="Complaints"
+              />
+              <span>Complaints</span>
+            </label>
+          </div>
+        </section>
+
+        <section
+          id="sec-damages"
+          class="hidden-section eco-card eco-card-accent"
+        >
+          <h2 class="eco-section-title">
+            <span class="num">01</span>Damages / Losses
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div>
+              <label class="eco-label">Date the incident occurred</label>
+              <input type="date" name="incident_date" class="eco-input" />
+            </div>
+            <div>
+              <label class="eco-label">Address where it happened</label>
+              <input type="text" name="address" class="eco-input" />
+            </div>
+            <div class="md:col-span-2">
+              <label class="eco-label"
+                >Valuation / coverage option selected</label
+              >
+              <select name="coverage" class="eco-select">
+                <option value="">-- Select --</option>
+                <option value="Replacement Cost Coverage with No Deductible">
+                  Replacement Cost Coverage with No Deductible
+                </option>
+                <option value="Replacement Cost Coverage with Deductible">
+                  Replacement Cost Coverage with Deductible
+                </option>
+                <option value="Basic Value Protection">
+                  Basic Value Protection
+                </option>
+              </select>
+            </div>
+            <div class="md:col-span-2">
+              <label class="eco-label">Damage / missing item details</label>
+              <p class="eco-help mb-2 italic">
+                If there is damage: please list the items damaged and the nature
+                of the damage.<br /><br />If you have a missing item: please
+                list the item(s) missing and provide a description to help us
+                search. Please be as thorough as possible.
+              </p>
+              <textarea
+                name="damage_description"
+                maxlength="8000"
+                rows="5"
+                class="eco-textarea"
+              ></textarea>
+            </div>
+            <div>
+              <label class="eco-label">Combined weight of items</label>
+              <input
+                type="text"
+                name="weight"
+                placeholder="Input a zero if you are unsure"
+                class="eco-input"
+              />
+            </div>
+            <div>
+              <label class="eco-label">Total value of items (USD)</label>
+              <input
+                type="number"
+                name="claimed_value"
+                placeholder="Input a zero if you are unsure"
+                class="eco-input"
+              />
+            </div>
+            <div>
+              <label class="eco-label">Do you have photos of the damage?</label>
+              <select name="has_photos" class="eco-select">
+                <option value="">-- Select --</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+                <option value="The crew has them">The crew has them.</option>
+                <option value="Other">Other:</option>
+              </select>
+            </div>
+            <div>
+              <label class="eco-label">Upload photos</label>
+              <input type="hidden" id="uploader" role="uploadcare-uploader" data-multiple="true" name="photo_url" />
+              />
+              <p class="eco-help">
+                Files are processed via Uploadcare's secure portal.
+              </p>
+            </div>
+            <div class="md:col-span-2">
+              <label class="eco-label">Further information to provide</label>
+              <textarea
+                name="extra_info"
+                maxlength="4000"
+                rows="2"
+                class="eco-textarea"
+              ></textarea>
+            </div>
+          </div>
+        </section>
+
+        <section
+          id="sec-billing"
+          class="hidden-section eco-card eco-card-accent"
+        >
+          <h2 class="eco-section-title">
+            <span class="num">02</span>Billing Concerns
+          </h2>
+          <div class="space-y-5">
+            <div>
+              <label class="eco-label">Nature of your billing concern</label>
+              <select name="billing_nature" class="eco-select">
+                <option value="">-- Select --</option>
+                <option value="Charges for Transit">Charges for Transit</option>
+                <option value="Move Time or Length">Move Time or Length</option>
+                <option
+                  value="Concerns about the Estimate provided or Final Move Paperwork"
+                >
+                  Concerns about the Estimate provided or Final Move Paperwork
+                </option>
+                <option value="Materials or other Services">
+                  Materials or other Services
+                </option>
+                <option value="Other">Other:</option>
+              </select>
+            </div>
+            <div>
+              <label class="eco-label"
+                >Please elaborate on your billing concern(s)</label
+              >
+              <p class="eco-help mb-2">
+                Include as much detail as you're able in order to assist with
+                our investigation.
+              </p>
+              <textarea
+                name="billing_details"
+                maxlength="4000"
+                rows="4"
+                class="eco-textarea"
+              ></textarea>
+            </div>
+          </div>
+        </section>
+
+        <section
+          id="sec-complaints"
+          class="hidden-section eco-card eco-card-accent"
+        >
+          <h2 class="eco-section-title">
+            <span class="num">03</span>Complaints
+          </h2>
+          <div class="space-y-5">
+            <div>
+              <label class="eco-label"
+                >General complaint or particular crew / office staff?</label
+              >
+              <select name="complaint_type" class="eco-select">
+                <option value="">-- Select --</option>
+                <option value="General">General</option>
+                <option value="Particular crew or office staff">
+                  Particular crew or office staff
+                </option>
+              </select>
+            </div>
+            <div>
+              <label class="eco-label"
+                >Crew member or office staff involved</label
+              >
+              <p class="eco-help mb-2">
+                If you'd like to share a name or description, you can do so
+                below.
+              </p>
+              <input type="text" name="staff_details" class="eco-input" />
+            </div>
+            <div>
+              <label class="eco-label">What happened?</label>
+              <textarea
+                name="what_happened"
+                maxlength="8000"
+                rows="4"
+                class="eco-textarea"
+              ></textarea>
+            </div>
+          </div>
+        </section>
+
+        <section class="eco-card">
+          <div class="eco-resolution mb-6">
+            <label
+              class="eco-label uppercase tracking-widest text-eco-green"
+              for="f-resolution"
+            >
+              Your requested resolution<span class="req">*</span>
+            </label>
+            <p class="eco-help mb-2">
+              If you're seeking a reimbursement, please specify the amount.
+            </p>
+            <textarea
+              id="f-resolution"
+              name="requested_resolution"
+              maxlength="4000"
+              rows="3"
+              required
+              class="eco-textarea"
+            ></textarea>
+          </div>
+
+          <label class="flex items-start gap-3 cursor-pointer select-none">
+            <input
+              type="checkbox"
+              id="agreement"
+              name="agreement"
+              required
+              class="mt-1 w-5 h-5"
+              style="accent-color: var(--eco-green)"
+            />
+            <span class="text-sm text-gray-700 leading-relaxed">
+              By checking this box, you are indicating that you are the person
+              named in the first answer on this form. You also acknowledge that
+              you have read the information within this form and that the
+              details you have provided above are the truth to the best of your
+              knowledge.
+              <span
+                class="block mt-2 text-eco-green font-bold uppercase tracking-widest text-xs"
+              >
+                I agree<span class="req">*</span>
+              </span>
+            </span>
+          </label>
+        </section>
+
+        <div class="text-center py-4">
+          <button type="submit" id="submitBtn" class="eco-submit">
+            Submit Claim
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M5 12h14M13 5l7 7-7 7" />
+            </svg>
+          </button>
+          <p id="responseMsg" class="mt-6 font-bold hidden"></p>
+        </div>
+      </form>
+    </main>
+
+    <footer class="eco-footer">
+      <p>
+        <span class="brand">Eco Movers</span> &bull; Sustainable Moving
+        Excellence &bull; Pacific Northwest
+      </p>
+      <p class="mt-2 normal-case tracking-normal text-[10px] text-gray-500">
+        &copy; 2026 GS Moving Services LLC
+      </p>
+    </footer>
+
     <script>
-        // DOMContentLoaded asegura que el formulario exista antes de leer la URL
-        document.addEventListener('DOMContentLoaded', () => {
+      // Same-origin path � no CORS, and the form works on any hostname you
+      // deploy it to (staging, production) with no code change.
+      const CLAIM_ENDPOINT = "/api/claim.php";
+
+      document.addEventListener("DOMContentLoaded", () => {
+        let finalPhotoUrl = "";
+        // 1. Conectamos el widget de Uploadcare usando su ID
+const uploaderWidget = uploadcare.Widget('#uploader');
+const formSubmitBtn = document.getElementById('submitBtn');
+
+// 2. Escuchamos cualquier cambio en el widget
+uploaderWidget.onChange(function(fileGroup) {
+    if (fileGroup) {
+        // La subida acaba de empezar: Bloqueamos el botón
+        formSubmitBtn.disabled = true;
+        formSubmitBtn.innerText = 'UPLOADING EVIDENCE...';
+        formSubmitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+
+        // Esperamos a que termine todo el proceso
+        fileGroup.promise().done(function(info) {
+            finalPhotoUrl = info.cdnUrl;
+            // ¡Subida exitosa! Desbloqueamos el botón
+            formSubmitBtn.disabled = false;
+            formSubmitBtn.innerText = 'SUBMIT CLAIM';
+            formSubmitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
             
-            // LÓGICA DE PARÁMETROS URL
-            const urlParams = new URLSearchParams(window.location.search);
-            const tipoMudanza = urlParams.get('tipo'); 
-
-            if (tipoMudanza && tipoMudanza.toLowerCase() === 'ld') {
-                document.getElementById('move_type_input').value = "LD";
-                document.getElementById('sec-ld-questions').style.display = 'block';
-            }
-
-            // LÓGICA PARA MOSTRAR/OCULTAR SECCIONES
-            const chkDamages = document.getElementById('chk-damages');
-            const chkBilling = document.getElementById('chk-billing');
-            const chkComplaints = document.getElementById('chk-complaints');
-
-            const secDamages = document.getElementById('sec-damages');
-            const secBilling = document.getElementById('sec-billing');
-            const secComplaints = document.getElementById('sec-complaints');
-
-            function toggleSections() {
-                secDamages.style.display = chkDamages.checked ? 'block' : 'none';
-                secBilling.style.display = chkBilling.checked ? 'block' : 'none';
-                secComplaints.style.display = chkComplaints.checked ? 'block' : 'none';
-            }
-
-            chkDamages.addEventListener('change', toggleSections);
-            chkBilling.addEventListener('change', toggleSections);
-            chkComplaints.addEventListener('change', toggleSections);
-
-            // LÓGICA DE ENVÍO (SUBMIT)
-            const form = document.getElementById('ecoClaimForm');
-            const btn = document.getElementById('submitBtn');
-            const msg = document.getElementById('responseMsg');
-
-            document.getElementById('timestamp').value = new Date().toLocaleString();
-
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault();
-
-                if(!chkDamages.checked && !chkBilling.checked && !chkComplaints.checked) {
-                    alert("Please select at least one reason for reaching out (Damages, Billing, or Complaints).");
-                    return;
-                }
-
-                btn.disabled = true;
-                btn.innerText = 'PROCESSING...';
-
-                const formData = new FormData(form);
-                const data = {};
-                
-                formData.forEach((value, key) => {
-                    if (data[key]) {
-                        data[key] += ', ' + value; 
-                    } else {
-                        data[key] = value;
-                    }
-                });
-
-                try {
-                    // WEBHOOK DE n8n
-                    const response = await fetch('https://n8n.ecomovers.com/webhook/4787032b-aecc-4b2e-8c22-eccc3f365cbd', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(data)
-                    });
-
-                    if (response.ok) {
-                        form.reset();
-                        toggleSections(); 
-                        document.getElementById('sec-ld-questions').style.display = 'none'; 
-                        msg.innerText = "CLAIM SUBMITTED SUCCESSFULLY. OUR CE TEAM WILL REVIEW THIS SHORTLY.";
-                        msg.className = "mt-6 font-bold text-eco-green block uppercase tracking-tight";
-                        btn.classList.add('hidden');
-                    } else {
-                        throw new Error();
-                    }
-                } catch (err) {
-                    msg.innerText = "SUBMISSION ERROR. PLEASE CHECK YOUR CONNECTION.";
-                    msg.className = "mt-6 font-bold text-red-500 block uppercase tracking-tight";
-                    btn.disabled = false;
-                    btn.innerText = 'RETRY SUBMIT';
-                }
-            });
+            // Opcional para QA: Puedes ver la URL generada en tu consola
+            console.log("Uploadcare URL lista:", info.cdnUrl); 
+        }).fail(function() {
+            // Si algo falla con el internet del cliente
+            formSubmitBtn.disabled = false;
+            formSubmitBtn.innerText = 'SUBMIT CLAIM';
+            formSubmitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            alert("Hubo un error subiendo las fotos. Por favor intenta de nuevo.");
         });
+    }
+});
+        const urlParams = new URLSearchParams(window.location.search);
+        const moveType = urlParams.get("type");
+
+        if (moveType && moveType.toLowerCase() === "ld") {
+          document.getElementById("move_type_input").value = "LD";
+          document.getElementById("sec-ld-questions").style.display = "block";
+        }
+
+        const chkDamages = document.getElementById("chk-damages");
+        const chkBilling = document.getElementById("chk-billing");
+        const chkComplaints = document.getElementById("chk-complaints");
+
+        const secDamages = document.getElementById("sec-damages");
+        const secBilling = document.getElementById("sec-billing");
+        const secComplaints = document.getElementById("sec-complaints");
+
+        function toggleSections() {
+          secDamages.style.display = chkDamages.checked ? "block" : "none";
+          secBilling.style.display = chkBilling.checked ? "block" : "none";
+          secComplaints.style.display = chkComplaints.checked
+            ? "block"
+            : "none";
+        }
+
+        chkDamages.addEventListener("change", toggleSections);
+        chkBilling.addEventListener("change", toggleSections);
+        chkComplaints.addEventListener("change", toggleSections);
+
+        const form = document.getElementById("ecoClaimForm");
+        const btn = document.getElementById("submitBtn");
+        const msg = document.getElementById("responseMsg");
+
+        document.getElementById("timestamp").value =
+          new Date().toLocaleString();
+
+        form.addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          if (!chkDamages.checked && !chkBilling.checked && !chkComplaints.checked) {
+            alert("Please select at least one reason for reaching out (Damages, Billing, or Complaints).");
+            return;
+          }
+
+          btn.disabled = true;
+          btn.innerText = "PROCESSING...";
+
+          const formData = new FormData(form);
+          const data = {};
+
+          formData.forEach((value, key) => {
+            data[key] = data[key] ? data[key] + ", " + value : value;
+          });
+
+          // --- MEJORA DE PROCESO: EXTRACCIÓN DIRECTA ---
+          // Forzamos la lectura del widget de Uploadcare justo antes del envío
+          const widget = uploadcare.Widget('#uploader');
+          const photoValue = widget.value();
+
+          if (photoValue) {
+              // Inyectamos a la fuerza el valor real que tiene el widget
+              data.photo_url = photoValue;
+          }
+          // ----------------------------------------------
+
+          try {
+            const response = await fetch(CLAIM_ENDPOINT, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(data),
+            });
+
+            if (response.ok) {
+              form.reset();
+              toggleSections();
+              document.getElementById("sec-ld-questions").style.display =
+                "none";
+              msg.innerText =
+                "CLAIM SUBMITTED SUCCESSFULLY. OUR CE TEAM WILL REVIEW THIS SHORTLY.";
+              msg.className =
+                "mt-6 font-bold text-eco-green block uppercase tracking-tight";
+              btn.classList.add("hidden");
+            } else {
+              // The endpoint explains validation and throttling problems in
+              // plain language � show that instead of a generic failure.
+              const detail = await response.json().catch(() => null);
+              throw new Error(
+                detail?.error ||
+                  `SUBMISSION ERROR (HTTP ${response.status}). PLEASE TRY AGAIN.`,
+              );
+            }
+          } catch (err) {
+            msg.innerText =
+              err.message || "SUBMISSION ERROR. PLEASE CHECK YOUR CONNECTION.";
+            msg.className =
+              "mt-6 font-bold text-red-500 block uppercase tracking-tight";
+            btn.disabled = false;
+            btn.innerText = "RETRY SUBMIT";
+          }
+        });
+      });
     </script>
-</body>
+  </body>
 </html>
